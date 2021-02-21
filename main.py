@@ -7,7 +7,7 @@ import os
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-
+clear()
 player_num = int(input("number of players playing:\n"))
 card_deck = Deck()#gen_deck()
 curr_card = card_deck.next()
