@@ -57,3 +57,6 @@ class Deck:
     def __str__(self):
         s = str(list(map(str, self.deck))).replace("'", "")
         return f"Deck<{s[1:len(s)-1]}>"
+    
+    def cards_left(self):
+        return self.deck_pointer+1

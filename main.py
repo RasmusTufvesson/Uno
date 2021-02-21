@@ -50,14 +50,17 @@ give = 0
 on = True
 while on:
     clear()
+    #print (curr_player)
     input (f"########### Waiting for {players[curr_player].name} ###########")
     clear()
 
     for i in range(give):
         players[curr_player].give_cards([card_deck.next()])
+    give = 0
 
     print (f"Current card: {curr_card.get_color() + ' ' + curr_card.get_type()}")
     print (f"Current player: {players[curr_player].name}")
+    print (f"Cards left: {str(card_deck.cards_left())}")
 
     print ()
     print ("Your cards:")
@@ -67,43 +70,45 @@ while on:
     print ()
 
     cards = input("Number of card(s) to play:\n").split(" ")
-    cards = list(map(int, cards))
-    next_card = curr_card
-    first_card = players[curr_player].get_deck()[cards[0] - 1]
-    for card in cards:
-        card_num = card - 1
-        card = players[curr_player].get_deck()[card_num]
-        if card.possible(curr_card) and card == first_card:
-            players[curr_player].remove_card(card_num)
-            if len(players[curr_player].deck) == 6:
-                new_card = [card_deck.next()]
-                players[curr_player].give_cards(new_card)
-                #print (players[curr_player])
-                #print (new_card[0])
-                #input()
-        else:
-            print ("\nNot a playable card")
-            #print (card.possible(curr_card))
-            #print (card == first_card)
-            #print (card)
-            #print (first_card)
-            input ()
+    skip = cards == [""] or cards == ["skip"] or cards == ["pass"]
+    if not skip:
+        cards = list(map(int, cards))
+        next_card = curr_card
+        first_card = players[curr_player].get_deck()[cards[0] - 1]
+        for card in cards:
+            card_num = card - 1
+            card = players[curr_player].get_deck()[card_num]
+            if card.possible(curr_card) and card == first_card:
+                players[curr_player].remove_card(card_num)
+                if len(players[curr_player].deck) == 6:
+                    new_card = [card_deck.next()]
+                    players[curr_player].give_cards(new_card)
+                    #print (players[curr_player])
+                    #print (new_card[0])
+                    #input()
+            else:
+                print ("\nNot a playable card")
+                #print (card.possible(curr_card))
+                #print (card == first_card)
+                #print (card)
+                #print (first_card)
+                input ()
 
-        if card.possible(curr_card) and card == first_card:
-            prev_card = curr_card
-            next_card = card
-            if card.type == CBLOCK:
-                next_player()
-            elif card.type == CSWITCH:
-                reverse()
-            elif card.type == C2MORE:
-                give += 2
-            elif card.type == C4MORE:
-                give += 4
-                next_card.color = prev_card.color
-            elif card.type == CCOLOR:
-                next_card.color = color_translate.get(input("\nNew color:\n"), 0)
+            if card.possible(curr_card) and card == first_card:
+                prev_card = curr_card
+                next_card = card
+                if card.type == CBLOCK:
+                    next_player()
+                elif card.type == CSWITCH:
+                    reverse()
+                elif card.type == C2MORE:
+                    give += 2
+                elif card.type == C4MORE:
+                    give += 4
+                    next_card.color = prev_card.color
+                elif card.type == CCOLOR:
+                    next_card.color = color_translate.get(input("\nNew color:\n"), 0)
 
-    curr_card = next_card
+        curr_card = next_card
 
     next_player()
