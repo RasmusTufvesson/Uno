@@ -2,7 +2,8 @@
 from card import gen_card
 
 class Player:
-    def __init__(self, cards = 7):
+    def __init__(self, name, cards = 7):
+        self.name = name
         if type(cards) == int:
             self.card_num = cards
             self.deck = self.generate_deck()

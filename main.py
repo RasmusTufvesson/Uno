@@ -20,7 +20,8 @@ for i in range(player_num):
     cards = []
     for j in range(7):
         cards.append(card_deck.next())
-    players.append(Player(cards))
+    name = input(f"Player {str(i + 1)}'s name: ")
+    players.append(Player(name, cards))
 
 
 curr_player = 0
@@ -49,25 +50,26 @@ give = 0
 on = True
 while on:
     clear()
-    input ("########### Waiting for player ###########")
+    input (f"########### Waiting for {players[curr_player].name} ###########")
     clear()
 
     for i in range(give):
         players[curr_player].give_cards([card_deck.next()])
 
     print (f"Current card: {curr_card.get_color() + ' ' + curr_card.get_type()}")
+    print (f"Current player: {players[curr_player].name}")
 
     print ()
     print ("Your cards:")
     #print (players[curr_player])#players[curr_player].deck)
-    for i in players[curr_player].deck:
-        print (i.get_color(), i.get_type())
+    for i in range(len(players[curr_player].deck)):
+        print (str(i+1)+".", players[curr_player].deck[i].get_color(), players[curr_player].deck[i].get_type())
     print ()
 
     cards = input("Number of card(s) to play:\n").split(" ")
     cards = list(map(int, cards))
     next_card = curr_card
-    first_card = cards[0]
+    first_card = players[curr_player].get_deck()[cards[0] - 1]
     for card in cards:
         card_num = card - 1
         card = players[curr_player].get_deck()[card_num]
@@ -81,6 +83,10 @@ while on:
                 #input()
         else:
             print ("\nNot a playable card")
+            #print (card.possible(curr_card))
+            #print (card == first_card)
+            #print (card)
+            #print (first_card)
             input ()
 
         if card.possible(curr_card) and card == first_card:
