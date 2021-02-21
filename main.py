@@ -90,7 +90,7 @@ while on:
             if card.possible(curr_card):# and card == first_card:
                 #players[curr_player].remove_card(card_num)
                 remove.append(card_num)
-                if len(players[curr_player].deck) == 6:
+                if len(players[curr_player].deck) == 7:
                     new_card = [card_deck.next()]
                     players[curr_player].give_cards(new_card)
                     #print (players[curr_player])
