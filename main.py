@@ -40,7 +40,7 @@ def next_player():
     else:
         curr_player -= 1
         if curr_player == -1:
-            curr_player = player_num
+            curr_player = player_num-1
             #print ("to low")
     #print (curr_player)
     return curr_player
