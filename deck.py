@@ -26,7 +26,7 @@ class Deck:
     def __init__(self):
         deck = []
 
-        for i in range(1, 15):
+        for i in range(0, 15):
             if i in [0, 14, 13]:
                 deck += self.gen_cards(1, [0,1,2,3], i)
             else:

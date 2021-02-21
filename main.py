@@ -46,6 +46,7 @@ def next_player():
     return curr_player
 
 give = 0
+remove = []
 
 skips = 0
 
@@ -56,6 +57,7 @@ while on:
     print (f"########### Waiting for {players[curr_player].name} ###########")
     print (f"Current card: {str(curr_card)}")
     print (f"Cards left: {str(card_deck.cards_left())}")
+    print (f"########### Waiting for {players[curr_player].name} ###########")
     input()
     clear()
 
@@ -70,6 +72,7 @@ while on:
     print ()
     print ("Your cards:")
     #print (players[curr_player])#players[curr_player].deck)
+    players[curr_player].deck = sorted(players[curr_player].deck)
     for i in range(len(players[curr_player].deck)):
         print (str(i+1)+".", players[curr_player].deck[i].get_color(), players[curr_player].deck[i].get_type())
     print ()
@@ -77,14 +80,16 @@ while on:
     cards = input("Number of card(s) to play:\n").split(" ")
     skip = cards == [""] or cards == ["skip"] or cards == ["pass"]
     if not skip:
+        player_for_turn = curr_player
         cards = list(map(int, cards))
-        next_card = curr_card
-        first_card = players[curr_player].get_deck()[cards[0] - 1]
+        #next_card = curr_card
+        #first_card = players[curr_player].get_deck()[cards[0] - 1]
         for card in cards:
             card_num = card - 1
             card = players[curr_player].get_deck()[card_num]
-            if card.possible(curr_card) and card == first_card:
-                players[curr_player].remove_card(card_num)
+            if card.possible(curr_card):# and card == first_card:
+                #players[curr_player].remove_card(card_num)
+                remove.append(card_num)
                 if len(players[curr_player].deck) == 6:
                     new_card = [card_deck.next()]
                     players[curr_player].give_cards(new_card)
@@ -99,9 +104,9 @@ while on:
                 #print (first_card)
                 input ()
 
-            if card.possible(curr_card) and card == first_card:
+            if card.possible(curr_card):# and card == first_card:
                 prev_card = curr_card
-                next_card = card
+                curr_card = card
                 if card.type == CBLOCK:
                     next_player()
                 elif card.type == CSWITCH:
@@ -110,12 +115,17 @@ while on:
                     give += 2
                 elif card.type == C4MORE:
                     give += 4
-                    next_card.color = prev_card.color
+                    curr_card.color = prev_card.color
                 elif card.type == CCOLOR:
-                    next_card.color = color_translate.get(input("\nNew color:\n"), 0)
+                    curr_card.color = color_translate.get(input("\nNew color:\n"), 0)
 
-        curr_card = next_card
         skips = 0
+
+        remove = reversed(sorted(remove))
+        for i in remove:
+            players[player_for_turn].remove_card(i)
+        remove = []
+
     else:
         skips += 1
     
