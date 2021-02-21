@@ -47,6 +47,8 @@ class Card:
     
     def __str__(self):
         return self.get_color() + " " + self.get_type()
+    def __eq__(self, other):
+        return type(self) == type(other) and self.color == other.color and self.type == other.type
 
 def gen_card():
     return Card(random.choice(COLORS), random.choice(TYPES))

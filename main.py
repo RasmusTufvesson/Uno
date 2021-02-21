@@ -26,6 +26,7 @@ for i in range(player_num):
 curr_player = 0
 next_up = True
 def reverse():
+    global next_up
     next_up = not next_up
 def next_player():
     global curr_player, next_up
@@ -63,34 +64,40 @@ while on:
         print (i.get_color(), i.get_type())
     print ()
 
-    card = int(input("Number of card to play:\n"))
-    card_num = card - 1
-    card = players[curr_player].get_deck()[card_num]
-    if card.possible(curr_card):
-        players[curr_player].remove_card(card_num)
-        if len(players[curr_player].deck) == 6:
-            new_card = [card_deck.next()]
-            players[curr_player].give_cards(new_card)
-            #print (players[curr_player])
-            #print (new_card[0])
-            #input()
-    else:
-        print ("\nNot a playable card")
-        input ()
+    cards = input("Number of card(s) to play:\n").split(" ")
+    cards = list(map(int, cards))
+    next_card = curr_card
+    first_card = cards[0]
+    for card in cards:
+        card_num = card - 1
+        card = players[curr_player].get_deck()[card_num]
+        if card.possible(curr_card) and card == first_card:
+            players[curr_player].remove_card(card_num)
+            if len(players[curr_player].deck) == 6:
+                new_card = [card_deck.next()]
+                players[curr_player].give_cards(new_card)
+                #print (players[curr_player])
+                #print (new_card[0])
+                #input()
+        else:
+            print ("\nNot a playable card")
+            input ()
 
-    if card.possible(curr_card):
-        prev_card = curr_card
-        curr_card = card
-        if card.type == CBLOCK:
-            next_player()
-        elif card.type == CSWITCH:
-            reverse()
-        elif card.type == C2MORE:
-            give = 2
-        elif card.type == C4MORE:
-            give = 4
-            curr_card.color = prev_card.color
-        elif card.type == CCOLOR:
-            curr_card.color = color_translate.get(input("\nNew color:\n"), 0)
+        if card.possible(curr_card) and card == first_card:
+            prev_card = curr_card
+            next_card = card
+            if card.type == CBLOCK:
+                next_player()
+            elif card.type == CSWITCH:
+                reverse()
+            elif card.type == C2MORE:
+                give += 2
+            elif card.type == C4MORE:
+                give += 4
+                next_card.color = prev_card.color
+            elif card.type == CCOLOR:
+                next_card.color = color_translate.get(input("\nNew color:\n"), 0)
+
+    curr_card = next_card
 
     next_player()
