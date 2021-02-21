@@ -47,11 +47,16 @@ def next_player():
 
 give = 0
 
+skips = 0
+
 on = True
 while on:
     clear()
     #print (curr_player)
-    input (f"########### Waiting for {players[curr_player].name} ###########")
+    print (f"########### Waiting for {players[curr_player].name} ###########")
+    print (f"Current card: {str(curr_card)}")
+    print (f"Cards left: {str(card_deck.cards_left())}")
+    input()
     clear()
 
     for i in range(give):
@@ -110,5 +115,12 @@ while on:
                     next_card.color = color_translate.get(input("\nNew color:\n"), 0)
 
         curr_card = next_card
+        skips = 0
+    else:
+        skips += 1
+    
+    if skips == 2:
+        curr_card = card_deck.next()
+        skips = 0
 
     next_player()
