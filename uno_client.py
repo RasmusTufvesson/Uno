@@ -12,7 +12,7 @@ def send(mes: str):
 
 def listen():
     data = str(sub.recv())
-    print (data)
+    #print (data)
     return data[2:len(data)-1]
 
 def listen_untill(prefix):
@@ -77,7 +77,7 @@ def do(com):
 on = True
 while on:
     message = listen().split(" ")
-    print (message)
+    #print (message)
     if message[0] == str(player_number):
         do(message[1:len(message)])
     elif message[0] == "wait":

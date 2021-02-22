@@ -46,6 +46,7 @@ for i in range(player_num):
     mes = listen().split()
     if mes[0] == "id":
         clients[mes[1]] = mes[2]
+        print (mes[1], "joined as", mes[2])
 #clients = sorted(clients)
 card_deck = Deck()#gen_deck()
 curr_card = card_deck.next()
