@@ -35,7 +35,7 @@ pub=client.socket(zmq.PUSH)
 pub.connect('tcp://'+HOST+':'+str(PORT+1))
 
 name = input("Name: ")
-client_id = name#self_hash()
+client_id = name#self_hash()#name
 clear()
 send(f"id {client_id} {name}")
 
@@ -83,3 +83,8 @@ while on:
     elif message[0] == "wait":
         clear()
         print (f"########### Waiting for {message[1]} ###########")
+    elif message[0] == "win":
+        clear()
+        print (f"########### {message[1]} wins! ###########")
+        on = False
+        break

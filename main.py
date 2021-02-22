@@ -93,9 +93,9 @@ while on:
             if card.possible(curr_card):# and card == first_card:
                 #players[player_for_turn].remove_card(card_num)
                 remove.append(card_num)
-                if len(players[player_for_turn].deck) == 7:
-                    new_card = [card_deck.next()]
-                    players[player_for_turn].give_cards(new_card)
+                #if len(players[player_for_turn].deck) == 7:
+                #    new_card = [card_deck.next()]
+                #    players[player_for_turn].give_cards(new_card)
                     #print (players[player_for_turn])
                     #print (new_card[0])
                     #input()
@@ -129,6 +129,9 @@ while on:
         remove = reversed(sorted(remove))
         for i in remove:
             players[player_for_turn].remove_card(i)
+            if len(players[player_for_turn].deck) < 7:
+                new_card = [card_deck.next()]
+                players[player_for_turn].give_cards(new_card)
         remove = []
 
         if len(players[player_for_turn].deck) == 0:

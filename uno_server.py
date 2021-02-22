@@ -2,7 +2,7 @@ from card import *
 from player import *
 from deck import *
 import os
-import zmq
+import zmq, socket
 
 
 def clear():
@@ -37,10 +37,13 @@ pub.bind(f"tcp://*:{str(PORT)}")
 rec = server.socket(zmq.PULL)
 rec.bind(f"tcp://*:{str(PORT + 1)}")
 
+selfname = socket.gethostname()
+selfip = socket.gethostbyname(selfname)
 
 clear()
 clients = {}
 player_num = int(input("number of players playing:\n"))
+print ("Server running on host:", selfip)
 print ("waiting for players...")
 for i in range(player_num):
     mes = listen().split()
@@ -133,9 +136,12 @@ while on:
             if card.possible(curr_card):# and card == first_card:
                 #players[player_for_turn].remove_card(card_num)
                 remove.append(card_num)
-                if len(players[player_for_turn].deck) == 7:
-                    new_card = [card_deck.next()]
-                    players[player_for_turn].give_cards(new_card)
+                #if len(players[player_for_turn].deck) - len(remove) < 7:
+                #    new_card = [card_deck.next()]
+                #    print (players[player_for_turn].deck)
+                #    players[player_for_turn].give_cards(new_card)
+                #    print (players[player_for_turn].deck)
+                #    input()
                     #print (players[player_for_turn])
                     #print (new_card[0])
                     #input()
@@ -171,18 +177,21 @@ while on:
         remove = reversed(sorted(remove))
         for i in remove:
             players[player_for_turn].remove_card(i)
+            if len(players[player_for_turn].deck) < 7:
+                new_card = [card_deck.next()]
+                players[player_for_turn].give_cards(new_card)
         remove = []
 
         if len(players[player_for_turn].deck) == 0:
             clear()
-            print (f"########### {players[player_for_turn].name} wins! ###########")
+            send(f"win {players[player_for_turn.name]}")#print (f"########### {players[player_for_turn].name} wins! ###########")
             on = False
             break
 
     else:
         skips += 1
     
-    if skips == 2:
+    if skips == len(players):#2:
         curr_card = card_deck.next()
         skips = 0
 
