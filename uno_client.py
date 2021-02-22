@@ -88,3 +88,7 @@ while on:
         print (f"########### {message[1]} wins! ###########")
         on = False
         break
+    elif message[0] == "tie":
+        print (f"########### tie! ###########")
+        on = False
+        break

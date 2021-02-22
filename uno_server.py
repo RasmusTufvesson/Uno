@@ -51,7 +51,7 @@ for i in range(player_num):
         clients[mes[1]] = mes[2]
         print (mes[1], "joined as", mes[2])
 #clients = sorted(clients)
-card_deck = Deck()#gen_deck()
+card_deck = Deck([Card(1, 1), Card(1, 2), Card(2, 1), Card(2, 2), Card(3, 1), Card(3, 2), Card(1, 1), Card(1, 2), Card(2, 1), Card(2, 2), Card(3, 1), Card(3, 2), Card(1, 1), Card(1, 2), Card(2, 1), Card(2, 2), Card(3, 1), Card(3, 2), Card(1, 1), Card(1, 2), Card(2, 1), Card(2, 2), Card(3, 1), Card(3, 2)])#gen_deck()
 curr_card = card_deck.next()
 while curr_card.type in (10, 11, 12, 13, 14):
     curr_card = card_deck.next()
@@ -95,7 +95,7 @@ skips = 0
 
 on = True
 while on:
-    clear()
+    #clear()
     #print (curr_player)
     send(f"wait {players[curr_player].name}")
     print (f"########### Waiting for {players[curr_player].name} ###########")
@@ -163,9 +163,13 @@ while on:
                     send(f"{str(player_for_turn)} cr")
                     curr_card.color = color_translate.get(listen(), 0)#input("\nNew color:\n"), 0)
                     curr_card.recalculate_value()
-                    
+                print (prev_card, "->", curr_card)
+
             else:
                 send(f"{str(player_for_turn)} np")
+                print (card, "/", curr_card)
+                print (cards)
+                print (map(str, players[player_for_turn].deck))
                 #print ("\nNot a playable card")
                 #print (card.possible(curr_card))
                 #print (card == first_card)
@@ -185,7 +189,7 @@ while on:
 
         if len(players[player_for_turn].deck) == 0:
             clear()
-            send(f"win {players[player_for_turn.name]}")#print (f"########### {players[player_for_turn].name} wins! ###########")
+            send(f"win {players[player_for_turn].name}")#print (f"########### {players[player_for_turn].name} wins! ###########")
             on = False
             break
 
@@ -195,5 +199,9 @@ while on:
     if skips == len(players):#2:
         curr_card = card_deck.next()
         skips = 0
+        if curr_card == None:
+            send("tie")
+            on = False
+            break
 
     next_player()
