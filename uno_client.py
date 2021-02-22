@@ -5,7 +5,7 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def self_hash():
-    return input("player id: ")#str(hash(platform.node()))
+    return str(hash(platform.node()))
 
 def send(mes: str):
     pub.send_string(mes)
@@ -34,8 +34,8 @@ sub.connect('tcp://'+HOST+':'+str(PORT))
 pub=client.socket(zmq.PUSH)
 pub.connect('tcp://'+HOST+':'+str(PORT+1))
 
-client_id = self_hash()
 name = input("Name: ")
+client_id = name#self_hash()
 clear()
 send(f"id {client_id} {name}")
 

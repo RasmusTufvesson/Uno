@@ -47,7 +47,7 @@ class Card:
         return TYPE_TRANSLATOR[self.type]
     
     def __str__(self):
-        return self.get_color() + " " + self.get_type()
+        return self.get_color() + " " + self.get_type()#"Card<"+self.get_color() + " " + self.get_type()+">"
     def __eq__(self, other):
         return type(self) == type(other) and self.color == other.color and self.type == other.type
     def __gt__(self, other):

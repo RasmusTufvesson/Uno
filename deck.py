@@ -23,16 +23,17 @@ def gen_deck():
 """
 
 class Deck:
-    def __init__(self):
-        deck = []
+    def __init__(self, deck = None):
+        if deck == None:
+            deck = []
 
-        for i in range(0, 15):
-            if i in [0, 14, 13]:
-                deck += self.gen_cards(1, [0,1,2,3], i)
-            else:
-                deck += self.gen_cards(2, [0,1,2,3], i)
+            for i in range(0, 15):
+                if i in [0, 14, 13]:
+                    deck += self.gen_cards(1, [0,1,2,3], i)
+                else:
+                    deck += self.gen_cards(2, [0,1,2,3], i)
 
-        random.shuffle(deck)
+            random.shuffle(deck)
 
         self.deck = deck
         self.deck_pointer = len(self.deck)-1

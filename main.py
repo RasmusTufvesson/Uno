@@ -9,10 +9,13 @@ def clear():
 
 clear()
 player_num = int(input("number of players playing:\n"))
-card_deck = Deck()#gen_deck()
+card_deck = Deck()#[Card(0, 1), Card(0, 1), Card(0,1), Card(0, 1), Card(0,1), Card(0, 1), Card(0,1), Card(0, 1), Card(0,1), Card(0, 1), Card(0,1), Card(0, 1), Card(0,1), Card(0, 1), Card(0,1)])#gen_deck()
+#print (card_deck)
 curr_card = card_deck.next()
-while curr_card.type != BLACK:
+#print (curr_card)
+while curr_card.type in (10, 11, 12, 13, 14):
     curr_card = card_deck.next()
+    #print (curr_card)
 
 
 players = []
@@ -127,6 +130,12 @@ while on:
         for i in remove:
             players[player_for_turn].remove_card(i)
         remove = []
+
+        if len(players[player_for_turn].deck) == 0:
+            clear()
+            print (f"########### {players[player_for_turn].name} wins! ###########")
+            on = False
+            break
 
     else:
         skips += 1

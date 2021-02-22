@@ -49,7 +49,7 @@ for i in range(player_num):
 #clients = sorted(clients)
 card_deck = Deck()#gen_deck()
 curr_card = card_deck.next()
-while curr_card.type != BLACK:
+while curr_card.type in (10, 11, 12, 13, 14):
     curr_card = card_deck.next()
 
 
@@ -171,6 +171,12 @@ while on:
         for i in remove:
             players[player_for_turn].remove_card(i)
         remove = []
+
+        if len(players[player_for_turn].deck) == 0:
+            clear()
+            print (f"########### {players[player_for_turn].name} wins! ###########")
+            on = False
+            break
 
     else:
         skips += 1
