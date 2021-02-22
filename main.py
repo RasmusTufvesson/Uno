@@ -99,15 +99,8 @@ while on:
                     #print (players[player_for_turn])
                     #print (new_card[0])
                     #input()
-            else:
-                print ("\nNot a playable card")
-                #print (card.possible(curr_card))
-                #print (card == first_card)
-                #print (card)
-                #print (first_card)
-                input ()
 
-            if card.possible(curr_card):# and card == first_card:
+            #if card.possible(curr_card):# and card == first_card:
                 prev_card = curr_card
                 curr_card = card
                 if card.type == CBLOCK:
@@ -123,6 +116,14 @@ while on:
                 elif card.type == CCOLOR:
                     curr_card.color = color_translate.get(input("\nNew color:\n"), 0)
                     curr_card.recalculate_value()
+
+            else:
+                print ("\nNot a playable card")
+                #print (card.possible(curr_card))
+                #print (card == first_card)
+                #print (card)
+                #print (first_card)
+                input ()
 
         skips = 0
 
