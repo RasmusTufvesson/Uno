@@ -35,7 +35,7 @@ pub=client.socket(zmq.PUSH)
 pub.connect('tcp://'+HOST+':'+str(PORT+1))
 
 name = input("Name: ")
-client_id = name#self_hash()#name
+client_id = self_hash()#name
 clear()
 send(f"id {client_id} {name}")
 
