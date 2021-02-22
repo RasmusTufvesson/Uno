@@ -36,6 +36,7 @@ class Card:
             self.color = color
         #self.color = (c if card_type in (C4MORE, CCOLOR) )
         self.type = card_type
+        self.value = (self.color * 100) + self.type
     
     def possible(self, other):
         return self.color == other.color or self.type == other.type or self.color == BLACK
@@ -50,13 +51,18 @@ class Card:
     def __eq__(self, other):
         return type(self) == type(other) and self.color == other.color and self.type == other.type
     def __gt__(self, other):
-        selfvalue = (self.color * 100) + self.type
-        othervalue = (other.color * 100) + other.type
-        return selfvalue > othervalue
+        #selfvalue = (self.color * 100) + self.type
+        #othervalue = (other.color * 100) + other.type
+        return self.value > other.value
     def __lt__(self, other):
-        selfvalue = (self.color * 100) + self.type
-        othervalue = (other.color * 100) + other.type
-        return selfvalue < othervalue
+        #selfvalue = (self.color * 100) + self.type
+        #othervalue = (other.color * 100) + other.type
+        return self.value < other.value
+    
+    #def value(self):
+    #    return (self.color * 100) + self.type
+    def recalculate_value(self):
+        self.value = (self.color * 100) + self.type
 
 def gen_card():
     return Card(random.choice(COLORS), random.choice(TYPES))
