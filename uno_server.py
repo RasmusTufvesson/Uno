@@ -169,7 +169,7 @@ while on:
                 send(f"{str(player_for_turn)} np")
                 print (card, "/", curr_card)
                 print (cards)
-                print (map(str, players[player_for_turn].deck))
+                print (list(map(str, players[player_for_turn].deck)))
                 #print ("\nNot a playable card")
                 #print (card.possible(curr_card))
                 #print (card == first_card)
