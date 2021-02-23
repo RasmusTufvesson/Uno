@@ -68,81 +68,86 @@ while on:
         players[curr_player].give_cards([card_deck.next()])
     give = 0
 
-    print (f"Current card: {curr_card.get_color() + ' ' + curr_card.get_type()}")
-    print (f"Current player: {players[curr_player].name}")
-    print (f"Cards left: {str(card_deck.cards_left())}")
+    turn = True
+    while turn:
 
-    print ()
-    print ("Your cards:")
-    #print (players[curr_player])#players[curr_player].deck)
-    players[curr_player].deck = sorted(players[curr_player].deck)
-    for i in range(len(players[curr_player].deck)):
-        print (str(i+1)+".", players[curr_player].deck[i].get_color(), players[curr_player].deck[i].get_type())
-    print ()
+        print (f"Current card: {curr_card.get_color() + ' ' + curr_card.get_type()}")
+        print (f"Current player: {players[curr_player].name}")
+        print (f"Cards left: {str(card_deck.cards_left())}")
 
-    cards = input("Number of card(s) to play:\n").split(" ")
-    skip = cards == [""] or cards == ["skip"] or cards == ["pass"]
-    if not skip:
-        player_for_turn = curr_player
-        cards = list(map(int, cards))
-        #next_card = curr_card
-        #first_card = players[player_for_turn].get_deck()[cards[0] - 1]
-        for card in cards:
-            card_num = card - 1
-            card = players[player_for_turn].get_deck()[card_num]
-            if card.possible(curr_card):# and card == first_card:
-                #players[player_for_turn].remove_card(card_num)
-                remove.append(card_num)
-                #if len(players[player_for_turn].deck) == 7:
-                #    new_card = [card_deck.next()]
-                #    players[player_for_turn].give_cards(new_card)
-                    #print (players[player_for_turn])
-                    #print (new_card[0])
-                    #input()
+        print ()
+        print ("Your cards:")
+        #print (players[curr_player])#players[curr_player].deck)
+        players[curr_player].deck = sorted(players[curr_player].deck)
+        for i in range(len(players[curr_player].deck)):
+            print (str(i+1)+".", players[curr_player].deck[i].get_color(), players[curr_player].deck[i].get_type())
+        print ()
 
-            #if card.possible(curr_card):# and card == first_card:
-                prev_card = curr_card
-                curr_card = card
-                if card.type == CBLOCK:
-                    next_player()
-                elif card.type == CSWITCH:
-                    reverse()
-                elif card.type == C2MORE:
-                    give += 2
-                elif card.type == C4MORE:
-                    give += 4
-                    curr_card.color = prev_card.color
-                    curr_card.recalculate_value()
-                elif card.type == CCOLOR:
-                    curr_card.color = color_translate.get(input("\nNew color:\n"), 0)
-                    curr_card.recalculate_value()
+        cards = input("Number of card(s) to play:\n").split(" ")
+        skip = cards == [""] or cards == ["skip"] or cards == ["pass"]
+        if not skip:
+            player_for_turn = curr_player
+            cards = list(map(int, cards))
+            #next_card = curr_card
+            #first_card = players[player_for_turn].get_deck()[cards[0] - 1]
+            for card in cards:
+                card_num = card - 1
+                card = players[player_for_turn].get_deck()[card_num]
+                if card.possible(curr_card):# and card == first_card:
+                    #players[player_for_turn].remove_card(card_num)
+                    remove.append(card_num)
+                    #if len(players[player_for_turn].deck) == 7:
+                    #    new_card = [card_deck.next()]
+                    #    players[player_for_turn].give_cards(new_card)
+                        #print (players[player_for_turn])
+                        #print (new_card[0])
+                        #input()
 
-            else:
-                print ("\nNot a playable card")
-                #print (card.possible(curr_card))
-                #print (card == first_card)
-                #print (card)
-                #print (first_card)
-                input ()
+                #if card.possible(curr_card):# and card == first_card:
+                    prev_card = curr_card
+                    curr_card = card
+                    if card.type == CBLOCK:
+                        next_player()
+                    elif card.type == CSWITCH:
+                        reverse()
+                    elif card.type == C2MORE:
+                        give += 2
+                    elif card.type == C4MORE:
+                        give += 4
+                        curr_card.color = prev_card.color
+                        curr_card.recalculate_value()
+                    elif card.type == CCOLOR:
+                        curr_card.color = color_translate.get(input("\nNew color:\n"), 0)
+                        curr_card.recalculate_value()
+                    turn = False
+                else:
+                    print ("\nNot a playable card")
+                    #print (card.possible(curr_card))
+                    #print (card == first_card)
+                    #print (card)
+                    #print (first_card)
+                    input ()
+                    turn = True
 
-        skips = 0
+            skips = 0
 
-        remove = reversed(sorted(remove))
-        for i in remove:
-            players[player_for_turn].remove_card(i)
-            if len(players[player_for_turn].deck) < 7:
-                new_card = [card_deck.next()]
-                players[player_for_turn].give_cards(new_card)
-        remove = []
+            remove = reversed(sorted(remove))
+            for i in remove:
+                players[player_for_turn].remove_card(i)
+                if len(players[player_for_turn].deck) < 7:
+                    new_card = [card_deck.next()]
+                    players[player_for_turn].give_cards(new_card)
+            remove = []
 
-        if len(players[player_for_turn].deck) == 0:
-            clear()
-            print (f"########### {players[player_for_turn].name} wins! ###########")
-            on = False
-            break
+            if len(players[player_for_turn].deck) == 0:
+                clear()
+                print (f"########### {players[player_for_turn].name} wins! ###########")
+                on = False
+                break
 
-    else:
-        skips += 1
+        else:
+            skips += 1
+            turn = False
     
     if skips == 2:
         curr_card = card_deck.next()
